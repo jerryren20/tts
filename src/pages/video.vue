@@ -1,5 +1,5 @@
 <template>
-  <div class="home-page">
+  <div class="video-player-page">
     <h1>{{ $t('videoPlayer') }}</h1>
     
     <div class="video-container">
@@ -109,7 +109,7 @@ const toggleFullscreen = () => {
 </script>
 
 <style scoped>
-.home-page {
+.video-player-page {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;

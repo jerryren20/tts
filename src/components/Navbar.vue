@@ -2,28 +2,28 @@
   <div class="nav-wrapper">
     <!-- 桌面端横向菜单 -->
     <el-menu
-        v-show="!isMobile"
-        mode="horizontal"
-        default-active="/"
-        class="nav-menu"
-        background-color="#1d2129"
-        text-color="#fff"
-        active-text-color="#409eff"
+      v-show="!isMobile"
+      mode="horizontal"
+      :default-active="defaultActive"
+      @select="handleSelect"
+      class="nav-menu"
+      background-color="#409eff"
+      text-color="#fff"
+      active-text-color="#1d2129"
     >
-      <div class="logo">Element Plus 后台</div>
-      <el-menu-item index="/">首页</el-menu-item>
-      <el-sub-menu index="1">
-        <template #title>功能管理</template>
-        <el-menu-item index="/1-1">菜单1</el-menu-item>
-        <el-menu-item index="/1-2">菜单2</el-menu-item>
-      </el-sub-menu>
-      <el-menu-item index="/2">系统设置</el-menu-item>
-      <el-menu-item index="/3">关于我们</el-menu-item>
+      <div class="logo">M3U8 Video Player</div>
+      <el-menu-item index="/"> {{ $t('home') }}</el-menu-item>
+      <el-menu-item index="/convert">{{ $t('videoConvert') }}</el-menu-item>
+      <el-menu-item index="/articles">{{ $t('articles') }}</el-menu-item>
+      <el-menu-item index="/about">{{ $t('about') }}</el-menu-item>
+      <div class="language-switcher">
+        <LanguageSwitcher />
+      </div>
     </el-menu>
 
     <!-- 移动端菜单按钮 -->
     <div class="mobile-header" v-show="isMobile">
-      <div class="logo">Element Plus 后台</div>
+      <div class="logo">M3U8 Video Player</div>
       <el-icon size="24" color="#fff" @click="isCollapse = !isCollapse">
         <Menu />
       </el-icon>
@@ -31,30 +31,33 @@
 
     <!-- 移动端折叠菜单 -->
     <el-menu
-        v-show="isMobile && isCollapse"
-        mode="vertical"
-        default-active="/"
-        class="mobile-menu"
-        background-color="#1d2129"
-        text-color="#fff"
-        active-text-color="#409eff"
+      v-show="isMobile && isCollapse"
+      mode="vertical"
+      :default-active="defaultActive"
+      @select="handleSelect"
+      class="mobile-menu"
+      background-color="#409eff"
+      text-color="#fff"
+      active-text-color="#1d2129"
     >
-      <el-menu-item index="/">首页</el-menu-item>
-      <el-sub-menu index="1">
-        <template #title>功能管理</template>
-        <el-menu-item index="/1-1">菜单1</el-menu-item>
-        <el-menu-item index="/1-2">菜单2</el-menu-item>
-      </el-sub-menu>
-      <el-menu-item index="/2">系统设置</el-menu-item>
-      <el-menu-item index="/3">关于我们</el-menu-item>
+      <el-menu-item index="/"> {{ $t('home') }}</el-menu-item>
+      <el-menu-item index="/convert">{{ $t('videoConvert') }}</el-menu-item>
+      <el-menu-item index="/articles">{{ $t('articles') }}</el-menu-item>
+      <el-menu-item index="/about">{{ $t('about') }}</el-menu-item>
+      <div class="language-switcher">
+        <LanguageSwitcher />
+      </div>
     </el-menu>
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { Menu } from '@element-plus/icons-vue'
 
+const route = useRoute()
+const router = useRouter()
 const isMobile = ref(false)
 const isCollapse = ref(false)
 
@@ -62,6 +65,16 @@ const isCollapse = ref(false)
 const checkScreen = () => {
   isMobile.value = window.innerWidth < 768
   if (!isMobile.value) isCollapse.value = false
+}
+
+// 当前激活的菜单项
+const defaultActive = computed(() => {
+  return route.path
+})
+
+// 菜单项点击事件
+const handleSelect = (index: string) => {
+  router.push(index)
 }
 
 onMounted(() => {
@@ -77,7 +90,7 @@ onUnmounted(() => {
 <style scoped>
 .nav-wrapper {
   width: 100%;
-  background: #1d2129;
+  background: #409eff;
 }
 
 /* 桌面菜单 */
@@ -125,5 +138,12 @@ onUnmounted(() => {
 :deep(.el-menu-item) {
   height: 60px !important;
   line-height: 60px !important;
+}
+
+.language-switcher {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 </style>

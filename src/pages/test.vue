@@ -1,11 +1,8 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
-  $END$
+  <h1>{{ $t('welcome') }}</h1>
+  <p>{{ $t('username') }}</p>
 </template>
 
-<style scoped>
+<script lang="ts" setup>
 
-</style>
+</script>
